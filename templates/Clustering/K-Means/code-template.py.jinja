@@ -40,7 +40,7 @@ X, y = make_blobs(n_samples=n_samples,
 {{ header("Training") }}
 
 # Train KMeans Model
-model = KMeans(n_centroids=n_centroids, max_iter=max_iter)
+model = KMeans(n_clusters=n_centroids, max_iter=max_iter)
 model.fit(X)
 
 {{ header("Testing") }}
