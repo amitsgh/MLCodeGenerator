@@ -2,5 +2,6 @@ bokeh==2.4.3
 Jinja2==3.1.2
 jupytext==1.14.5
 PyGithub==1.58.2
+python-dotenv==1.0.0
 streamlit==1.22.0
 uuid==1.30
