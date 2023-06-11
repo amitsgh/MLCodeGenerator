@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 ANOMALY_DETECTION_DATASETS = {
     "Glass": "glass",
@@ -11,6 +12,9 @@ def show():
     """Shows the sidebar components for the template and returns user inputs as dict."""
     
     inputs = {}
+
+    repo_name = os.getenv("REPO_NAME")
+    inputs["repo_name"] = repo_name
 
     with st.sidebar:
         st.write("## Input data")

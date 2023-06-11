@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 CLASSIFICATION_DATASETS = {
     "Diabetes": "diabetes",
@@ -7,7 +8,6 @@ CLASSIFICATION_DATASETS = {
 }
 
 PENALTY = {
-    "L1": "l1",
     "L2": "l2",
     "Elastic Net": "elasticnet",
     "None": "none"
@@ -15,6 +15,10 @@ PENALTY = {
 
 def show():
     inputs = {}
+
+    repo_name = os.getenv("REPO_NAME")
+    inputs["repo_name"] = repo_name
+
     with st.sidebar:
         st.write("## Input data")
         inputs["data"] = st.selectbox(

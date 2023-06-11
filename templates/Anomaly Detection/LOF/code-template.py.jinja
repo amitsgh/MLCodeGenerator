@@ -1,8 +1,14 @@
-{# Reference: Jinaja 2 Tutorial: https://zetcode.com/python/jinja/ #}
+{% if data == "Benchmark data" %}
+{{ header("Load the dataset")}}
+
+# Loading the dataset
+!wget https://raw.githubusercontent.com/{{ repo_name }}/master/data/ad/{{dataset}}.csv
+{%endif%}
+
 {{ header("Install required libraries")}}
 
 # install required libraries
-# pip install pyod {% if data == "Benchmark data" %}pandas scikit-learn {% endif %}
+!pip install pyod {% if data == "Benchmark data" %}pandas scikit-learn {% endif %}
 
 {{ header("Import required libraries")}}
 
@@ -43,7 +49,7 @@ X_train, y_train, X_test, y_test = generate_data(n_train=n_train,
                                                     random_state=42)
 {% else %}
 # Loading {{dataset}} dataset
-data = pd.read_csv("./data/ad/{{dataset}}.csv")
+data = pd.read_csv("{{dataset}}.csv")
 X = data.copy().drop('outlier', axis=1)
 y = data['outlier']
 

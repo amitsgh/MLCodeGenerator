@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from jinja2 import Environment, FileSystemLoader
-import uuid
+import uuid 
 from github import Github
 from dotenv import load_dotenv
 from collections import defaultdict
@@ -72,6 +72,7 @@ for dirpath, dirnames, filenames in os.walk(template_dir):
             continue
         template_dirs[task][framework] = os.path.join(template_dir, task, framework)
 del template_dirs["templates"]
+
 
 with st.sidebar:
     st.write("## Task")

@@ -1,3 +1,10 @@
+{% if data == "Benchmark data" %}
+{{ header("Load the dataset")}}
+
+# Loading the dataset
+!wget https://raw.githubusercontent.com/{{ repo_name }}/master/data/classification/{{dataset}}.csv
+{%endif%}
+
 {{ header("Install required libraries")}}
 
 # install required libraries
@@ -21,10 +28,10 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 {% endif %}
 {% if 'ROC Curve' in plots %}
-from sklearn.metrics import plot_roc_curve
+from sklearn.metrics import RocCurveDisplay
 {% endif %}
 {%  if 'Precision-Recall Curve' in plots %}
-from sklearn.metrics import plot_precision_recall_curve
+from sklearn.metrics import PrecisionRecallDisplay
 {% endif %}
 
 {{ header("Hyperparameters") }}
@@ -66,7 +73,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
                                     random_state=42)
 {% else %}
 # Loading {{dataset}} dataset
-data = pd.read_csv("./data/classification/{{dataset}}.csv")
+data = pd.read_csv("{{dataset}}.csv")
 X = data.copy().drop('class', axis=1)
 y = data['class']
 
@@ -113,11 +120,19 @@ print("\nModel Performance on Test Data: {}".format(
     accuracy.round(2)))
 
 # Compute the Precision
+{% if data == "Synthetic data" %}
 precision = precision_score(y_test, y_pred).round(2)
+{% else %}
+precision = precision_score(y_test, y_pred, pos_label='tested_positive').round(2)
+{% endif %}
 print("\nPrecision: {}".format(precision))
 
 # Compute the Recall
+{% if data == "Synthetic data" %}
 recall = recall_score(y_test, y_pred).round(2)
+{% else %}
+recall = recall_score(y_test, y_pred, pos_label='tested_positive').round(2)
+{% endif %}
 print("\nRecall: {}".format(recall))
 
 # Generate text reprot showing the main classification metrics
@@ -129,11 +144,11 @@ print(report)
 {{ header("Visualization")}}
 
 {%  if 'ROC Curve' in plots %}
-plot_roc_curve(model, X_test, y_test)
+RocCurveDisplay.from_estimator(model, X_test, y_test)
 plt.show()
 {% endif %}
 {%  if 'Precision-Recall Curve' in plots %}
-plot_precision_recall_curve(model, X_test, y_test)
+PrecisionRecallDisplay.from_estimator(model, X_test, y_test)
 plt.show()
 {% endif %}
 {% endif %}
@@ -143,10 +158,9 @@ plt.show()
 
 fig, axes = plt.subplots(figsize=(10,6), ncols=2, sharey=True)
 ax1, ax2 = axes
-
-plot_roc_curve(model, X_test, y_test, ax=ax1)
+RocCurveDisplay.from_estimator(model, X_test, y_test, ax=ax1)
 ax1.set_title("ROC Curve")
-plot_precision_recall_curve(model, X_test, y_test, ax=ax2)
+PrecisionRecallDisplay.from_estimator(model, X_test, y_test, ax=ax2)
 ax2.set_title("Precision Recall Curve")
 plt.show()
 {% endif %}

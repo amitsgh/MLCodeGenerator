@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 DISTANCE_METRICS = {
     "Euclidean": "euclidean",
@@ -21,6 +22,10 @@ CLASSIFICATION_DATASETS = {
 
 def show():
     inputs = {}
+
+    repo_name = os.getenv("REPO_NAME")
+    inputs["repo_name"] = repo_name
+
     with st.sidebar:
         st.write("## Input data")
         inputs["data"] = st.selectbox(
