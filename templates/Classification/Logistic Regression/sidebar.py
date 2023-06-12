@@ -9,7 +9,6 @@ CLASSIFICATION_DATASETS = {
 
 PENALTY = {
     "L2": "l2",
-    "Elastic Net": "elasticnet",
     "None": "none"
 }
 
